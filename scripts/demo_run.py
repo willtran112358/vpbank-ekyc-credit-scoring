@@ -1,14 +1,17 @@
 """Train credit model and run sample eKYC on synthetic image."""
 
+import sys
 from pathlib import Path
 
 import cv2
 import numpy as np
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 from src.credit.scoring_model import load_model, score_applicant
 from src.ekyc.face_verify import analyze_id_selfie
 
-ROOT = Path(__file__).resolve().parents[1]
 MODEL = ROOT / "models" / "credit_score_v1.joblib"
 SAMPLE_IMG = ROOT / "data" / "raw" / "sample_selfie.png"
 
