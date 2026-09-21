@@ -1,10 +1,56 @@
+<p align="center">
+  <img src="docs/assets/logo-vpbank.svg" alt="VPBank" height="44">
+</p>
+<p align="center">
+  <img src="docs/assets/header-bg.svg" width="100%" alt="VPBank green theme">
+</p>
+
 # VPBank — eKYC & Credit Scoring ML Services
 
-Digital-bank **onboarding** for a VPBank-shaped retail bank: **eKYC** image checks + **application PD** via FastAPI, aligned to public product themes on [Cá nhân](https://www.vpbank.com.vn/ca-nhan) and [Hộ kinh doanh](https://www.vpbank.com.vn/ho-kinh-doanh).
+eKYC + application PD API for VPBank [Cá nhân](https://www.vpbank.com.vn/ca-nhan) and [Hộ kinh doanh](https://www.vpbank.com.vn/ho-kinh-doanh).
 
-Book-level IFRS 9 / ECL engine (after the loan exists): companion pattern in a credit-risk solution repo.
+## Basel II
 
-**Role:** Data Engineer · **Year:** 2019
+From VPBank press ([2019](https://www.vpbank.com.vn/tin-tuc/thong-cao-bao-chi/2019/vpbank-chinh-thuc-duoc-ap-dung-tieu-chuan-basel-ii) · [2020](https://www.vpbank.com.vn/tin-tuc/thong-cao-bao-chi/2020/vpbank-chinh-thuc-hoan-thanh-basel-ii) · [IRB 2025](https://www.vpbank.com.vn/tin-tuc/thong-cao-bao-chi/2025/vpbank-chinh-thuc-dang-ky-ap-dung-phuong-phap-irb-theo-thong-tu-142025tt-nhnn)):
+
+| Year | What |
+|------|------|
+| **2014** | One of **10 banks** NHNN selected to **pilot Basel II**. End-2018 CAR Basel II **11.2%**. |
+| **2019** | Early **Circular 41** go-live (1 May) — among the first in Vietnam. |
+| **2020** | All **3 pillars** done; last pillar **ICAAP**. |
+| **2025** | Registered **IRB** under **Circular 14/2025/TT-NHNN**. |
+
+## Website themes — Cá nhân & Hộ kinh doanh
+
+| [Cá nhân](https://www.vpbank.com.vn/ca-nhan) | [Hộ kinh doanh / CommCredit](https://www.vpbank.com.vn/ho-kinh-doanh) |
+|:---:|:---:|
+| ![Cá nhân](docs/assets/hero-canhan.jpg) | ![Hộ kinh doanh](docs/assets/hero-hkd.jpg) |
+
+<p align="center">
+  <img src="docs/assets/anh-khcn-1.png" alt="Advisor and customer — Cá nhân" height="180">
+</p>
+
+### Product icons (public VPBank category set)
+
+| Thẻ tín dụng | Vay tín chấp | Vay thế chấp | Vay ô tô | Tài khoản | Tiết kiệm | Bảo hiểm | Tap & Pay |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| ![card](docs/assets/icons/icon-the-tin-dung.svg) | ![pl](docs/assets/icons/icon-vay-tin-chap.svg) | ![mtg](docs/assets/icons/icon-vay-the-chap.svg) | ![auto](docs/assets/icons/icon-vay-o-to.svg) | ![acc](docs/assets/icons/icon-tai-khoan.svg) | ![sav](docs/assets/icons/icon-tiet-kiem.svg) | ![ins](docs/assets/icons/icon-bao-hiem.svg) | ![tap](docs/assets/icons/icon-tap-pay.svg) |
+
+| Hoàn tiền | Tích điểm | Du lịch | Đồng thương hiệu | Shop / HKD | POS | QR Pay |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| ![cash](docs/assets/icons/icon-hoan-tien.svg) | ![pts](docs/assets/icons/icon-tich-diem.svg) | ![travel](docs/assets/icons/icon-du-lich.svg) | ![cobrand](docs/assets/icons/icon-dong-thuong-hieu.svg) | ![shop](docs/assets/icons/icon-shop.svg) | ![pos](docs/assets/icons/icon-pos.svg) | ![qr](docs/assets/icons/icon-qr.svg) |
+
+### Segments & HKD journey
+
+| Prime · Diamond | CommCredit journey |
+|:---:|:---:|
+| ![Prime Diamond](docs/assets/segments-prime-diamond.jpg) | ![HKD journey](docs/assets/hkd-journey.jpg) |
+
+| Prime KV | Private | HKD banner | Ngày An tâm sổ sách |
+|:---:|:---:|:---:|:---:|
+| ![Prime](docs/assets/banner-prime.jpg) | ![Private](docs/assets/banner-private.png) | ![HKD](docs/assets/banner-hkd.jpg) | ![ATSS](docs/assets/banner-atss.jpg) |
+
+Visual sources: [docs/assets/ATTRIBUTION.md](docs/assets/ATTRIBUTION.md)
 
 ---
 
@@ -116,6 +162,7 @@ curl -X POST http://localhost:8080/v1/ekyc/verify -F "file=@data/raw/sample_self
 
 ```
 vpbank-ekyc-credit-scoring/
+├── docs/assets/    # VPBank logo, icons, page themes
 ├── src/credit/     # Scoring model train + inference
 ├── src/ekyc/       # Image verification heuristics
 ├── src/api/        # FastAPI gateway
@@ -129,8 +176,3 @@ vpbank-ekyc-credit-scoring/
 - Swap Haar cascade with ONNX face model + liveness detection in production.
 - Log all scores with model version hash for regulatory audit.
 
----
-
-*Portfolio reconstruction from public VPBank product pages. No customer PII.*
-
-**WillTran** — Senior Data Engineer
