@@ -20,39 +20,45 @@ From VPBank press ([2019](https://www.vpbank.com.vn/tin-tuc/thong-cao-bao-chi/20
 | **2020** | All **3 pillars** done; last pillar **ICAAP**. |
 | **2025** | Registered **IRB** under **Circular 14/2025/TT-NHNN**. |
 
-## Website themes — Cá nhân & Hộ kinh doanh
+## Credit scoring architecture
 
-| [Cá nhân](https://www.vpbank.com.vn/ca-nhan) | [Hộ kinh doanh / CommCredit](https://www.vpbank.com.vn/ho-kinh-doanh) |
-|:---:|:---:|
-| ![Cá nhân](docs/assets/hero-canhan.jpg) | ![Hộ kinh doanh](docs/assets/hero-hkd.jpg) |
+```mermaid
+flowchart TB
+    classDef ch fill:#E8F5E9,stroke:#1B5E20,stroke-width:2px,color:#1B5E20
+    classDef feat fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef mdl fill:#FFF8E1,stroke:#F9A825,stroke-width:2px,color:#E65100
+    classDef dec fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef out fill:#FCE4EC,stroke:#C2185B,stroke-width:2px,color:#880E4F
+    classDef a fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef b fill:#FFE082,stroke:#F9A825,stroke-width:2px,color:#E65100
+    classDef c fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#BF360C
+    classDef d fill:#EF9A9A,stroke:#C62828,stroke-width:2px,color:#B71C1C
 
-<p align="center">
-  <img src="docs/assets/anh-khcn-1.png" alt="Advisor and customer — Cá nhân" height="180">
-</p>
+    subgraph IN["📱 Application"]
+        NEO["NEO / VP AI / branch"]:::ch
+        FORM["Income · tenure · loans<br/>delinquency · utilization"]:::feat
+    end
 
-### Product icons (public VPBank category set)
+    subgraph ENG["⚙️ src/credit"]
+        FS["Feature vector"]:::feat
+        SC["StandardScaler"]:::mdl
+        LR["LogisticRegression PD"]:::mdl
+        BD["Band A–D + limit × income"]:::dec
+    end
 
-| Thẻ tín dụng | Vay tín chấp | Vay thế chấp | Vay ô tô | Tài khoản | Tiết kiệm | Bảo hiểm | Tap & Pay |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| ![card](docs/assets/icons/icon-the-tin-dung.svg) | ![pl](docs/assets/icons/icon-vay-tin-chap.svg) | ![mtg](docs/assets/icons/icon-vay-the-chap.svg) | ![auto](docs/assets/icons/icon-vay-o-to.svg) | ![acc](docs/assets/icons/icon-tai-khoan.svg) | ![sav](docs/assets/icons/icon-tiet-kiem.svg) | ![ins](docs/assets/icons/icon-bao-hiem.svg) | ![tap](docs/assets/icons/icon-tap-pay.svg) |
+    subgraph BOOK["🏦 LOS"]
+        AP["Approve"]:::a
+        RF["Refer"]:::b
+        DC["Decline / manual"]:::d
+        LIM["Recommended limit VND"]:::out
+    end
 
-| Hoàn tiền | Tích điểm | Du lịch | Đồng thương hiệu | Shop / HKD | POS | QR Pay |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| ![cash](docs/assets/icons/icon-hoan-tien.svg) | ![pts](docs/assets/icons/icon-tich-diem.svg) | ![travel](docs/assets/icons/icon-du-lich.svg) | ![cobrand](docs/assets/icons/icon-dong-thuong-hieu.svg) | ![shop](docs/assets/icons/icon-shop.svg) | ![pos](docs/assets/icons/icon-pos.svg) | ![qr](docs/assets/icons/icon-qr.svg) |
+    NEO --> FORM --> FS --> SC --> LR --> BD
+    BD --> AP & RF & DC
+    BD --> LIM
+```
 
-### Segments & HKD journey
-
-| Prime · Diamond | CommCredit journey |
-|:---:|:---:|
-| ![Prime Diamond](docs/assets/segments-prime-diamond.jpg) | ![HKD journey](docs/assets/hkd-journey.jpg) |
-
-| Prime KV | Private | HKD banner | Ngày An tâm sổ sách |
-|:---:|:---:|:---:|:---:|
-| ![Prime](docs/assets/banner-prime.jpg) | ![Private](docs/assets/banner-private.png) | ![HKD](docs/assets/banner-hkd.jpg) | ![ATSS](docs/assets/banner-atss.jpg) |
-
-Visual sources: [docs/assets/ATTRIBUTION.md](docs/assets/ATTRIBUTION.md)
-
----
+Credit module detail: [`src/credit/README.md`](src/credit/README.md)
 
 ## Digital bank onboarding
 
@@ -162,8 +168,7 @@ curl -X POST http://localhost:8080/v1/ekyc/verify -F "file=@data/raw/sample_self
 
 ```
 vpbank-ekyc-credit-scoring/
-├── docs/assets/    # VPBank logo, icons, page themes
-├── src/credit/     # Scoring model train + inference
+├── src/credit/     # Scoring model + module README
 ├── src/ekyc/       # Image verification heuristics
 ├── src/api/        # FastAPI gateway
 ├── models/         # Serialized pipelines
